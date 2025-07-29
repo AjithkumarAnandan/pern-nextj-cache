@@ -15,11 +15,6 @@ export interface ProductResponse extends Product {
 }
 const Page = async () => {
   const url = "https://fakestoreapi.com/products";
-  const { data: products, error: getError } = await getProducts(url);
-
-  if (getError || !Array.isArray(products)) {
-    return <p>Error loading products: {getError ?? "Invalid data format"}</p>;
-  }
 
   const payload: Omit<Product, "id"> = {
     title: "New Product",
@@ -34,27 +29,35 @@ const Page = async () => {
     payload
   );
 
+  const { data: products, error: getError } = await getProducts(url);
   console.log(postData);
+  console.log(products);
+
   return (
     <>
       <div>
         <h1>Products</h1>
-        {/* {products.map((item) => (
-          <div key={item.id}>
-            <p>{item.title}</p>
-          </div>
-        ))} */}
-      </div>
-      <div>
-        <h1>Server-Side POST Request</h1>
+        {getError && <p style={{ color: "red" }}>{getError}</p>}
 
-        {postError && <p style={{ color: "red" }}>{postError}</p>}
-        {postData && (
+        {products &&
+          Array.isArray(products) &&
+          products.map((item) => (
+            <div key={item.id}>
+              <p>{item.title}</p>
+            </div>
+          ))}
+      </div>
+
+      <div>
+        {/* <h1>Server-Side POST Request</h1> */}
+
+        {/* {postError && <p style={{ color: "red" }}>{postError}</p>}
+        {postData && Array.isArray(postData) && (
           <div>
             <h2>Response from API:</h2>
             <pre>{JSON.stringify(postData, null, 2)}</pre>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );
