@@ -1,6 +1,5 @@
 import { getProducts, postProductData } from "@/lib/getProducts";
 import React from "react";
-
 export interface Product {
   id: number;
   title: string;
@@ -37,7 +36,13 @@ const Page = async () => {
     <>
       <div>
         <h1>Products</h1>
-        {getError && <p style={{ color: "red" }}>{getError}</p>}
+        {getError && (
+          <p style={{ color: "red" }}>
+            {typeof getError === "string"
+              ? getError
+              : "Failed to fetch products."}
+          </p>
+        )}
 
         {products &&
           Array.isArray(products) &&
