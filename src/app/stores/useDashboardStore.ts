@@ -3,7 +3,7 @@
 import { createStore, get, set, del } from "idb-keyval";
 import { create } from "zustand";
 import { persist, PersistOptions } from "zustand/middleware";
-import { DashboardType } from "@/app/dashboard/_internal/type/type.dashboard";
+import { DashboardType } from "@/app/entiredata/_internal/type/type.dashboard";
 
 // ---------- Types ----------
 

@@ -12,7 +12,7 @@ async function ensureTableExists() {
   `);
 }
 
-export const GET = async (req: Request) => {
+export const GET = async () => {
   try {
     await postgresConnect();
     await ensureTableExists();

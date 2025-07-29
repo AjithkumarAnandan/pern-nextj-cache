@@ -1,7 +1,19 @@
 "use client";
 import React, { useEffect } from "react";
 import { useCustomDashboard } from "../stores/useDashboardStore";
-import { DashboardType } from "../dashboard/_internal/type/type.dashboard";
+import { DashboardType } from "../entiredata/_internal/type/type.dashboard";
+
+function isDashboardType(product: unknown): product is DashboardType {
+  if (typeof product === "object" && product !== null) {
+    const p = product as Record<string, unknown>;
+
+    return (
+      (typeof p.id === "string" || typeof p.id === "number") &&
+      typeof p.name === "string"
+    );
+  }
+  return false;
+}
 
 function Page() {
   const dashboardStore = useCustomDashboard(`dashboard-single`);
@@ -31,11 +43,9 @@ function Page() {
 
   return (
     <div>
-      {data
-        ?.filter((user): user is DashboardType => user !== undefined)
-        .map((user) => (
-          <li key={user.id}>{user.name}</li>
-        ))}
+      {(data as unknown[]).filter(isDashboardType).map((product) => (
+        <li key={product.id}>{product.name}</li>
+      ))}
     </div>
   );
 }
